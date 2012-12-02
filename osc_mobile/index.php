@@ -44,7 +44,7 @@ Plugin update URI: osc-mobile
                 header('Location: ' . osc_base_url());
                 exit;
             } else {
-                Cookie::newInstance()->pop('osc-mobile-desktop', 'mobile') ;
+                Cookie::newInstance()->push('osc-mobile-desktop', 'mobile') ;
                 Cookie::newInstance()->set() ;
                 if(isset($_SERVER['HTTP_REFERER'])) {
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -60,7 +60,7 @@ Plugin update URI: osc-mobile
         
         $desktopVersion = Cookie::newInstance()->get_value('osc-mobile-desktop');
         
-        if ( $userAgent->is_mobile() && $desktopVersion != 'desktop' ) {
+        if ( $desktopVersion == 'mobile' || ($userAgent->is_mobile() && $desktopVersion != 'desktop') ) {
             WebThemes::newInstance()->setPath( dirname( osc_plugin_path(__FILE__) ) . '/themes/' ) ;
             WebThemes::newInstance()->setCurrentTheme('mobile') ;
             $functions_path = WebThemes::newInstance()->getCurrentThemePath() . 'functions.php';
